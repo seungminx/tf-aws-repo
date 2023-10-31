@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0" # 4.0 이상
+      version = "~> 5.0" # 4.0 이상
     }
   }
 }
@@ -18,15 +18,18 @@ provider "aws" {
 
 # Create a VPC
 module "vpc" {
-  source       = "./aws_vpc/"
-  cidr_network = "192.168.0.0/16"
+  source       = "github.com/seungminx/tf-aws-vpc.git"
 }
 
-module "subnet" {
-  source     = "./aws_subnet/"
-  cidr_block = "192.168.0.0/24"
-  vpc_id     = module.vpc.vpc_id
+module "keypair" {
+  source = "github.com/seungminx/tf-aws-keypair.git"
 }
+
+# module "subnet" {
+#   source     = "./aws_subnet/"
+#   cidr_block = "192.168.0.0/24"
+#   vpc_id     = module.vpc.vpc_id
+# }
 
 # resource "aws_subnet" "terra_private_subnet" {
 #   count                   = 2
